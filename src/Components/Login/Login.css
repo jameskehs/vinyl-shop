@@ -1,0 +1,39 @@
+#login,
+#signup {
+  padding: 50px 0;
+}
+
+#login form,
+#signup form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#login form input,
+#signup form input {
+  padding: 5px;
+  margin-bottom: 15px;
+  width: 75%;
+}
+
+#login form button,
+#signup form button {
+  padding: 5px;
+  border: 1px solid black;
+  color: #393d46;
+}
+
+#login form .error,
+#signup form .error {
+  color: red;
+  padding: 15px;
+}
+/*# sourceMappingURL=Login.css.map */

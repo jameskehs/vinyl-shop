@@ -1,0 +1,21 @@
+#saved-vinyls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  h2 {
+    text-align: center;
+    color: #393d46;
+  }
+
+  #saved-vinyls-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+}
+@media screen and (min-width: 768px) {
+  #saved-vinyls {
+    margin: 25px 125px;
+  }
+}

@@ -1,0 +1,84 @@
+.product-card {
+  width: 75%;
+  max-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 15px;
+
+  img {
+    width: 100%;
+  }
+
+  .product-name {
+    font-size: 1.3rem;
+    color: #393d46;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .product-artist {
+    font-size: 0.8rem;
+    color: #000000;
+  }
+
+  .product-price {
+    font-size: 16px;
+    color: #393d46;
+  }
+
+  .product-options {
+    display: flex;
+    margin-top: 10px;
+
+    button {
+      color: #393d46;
+      display: flex;
+      margin-left: 5px;
+      align-items: center;
+      padding: 5px;
+      border: 2px solid #393d46;
+      transition: all 0.2s ease;
+      font-size: 0.8rem;
+    }
+    svg {
+      height: 20px;
+      width: 20px;
+      stroke: #393d46;
+      transition: all 0.2s ease;
+    }
+
+    button:nth-of-type(1):hover {
+      background-color: #393d46;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    button:nth-of-type(2):hover {
+      cursor: pointer;
+      svg {
+        stroke: #ff6b6b;
+        fill: #ff6b6b;
+      }
+    }
+  }
+
+  .remove-from-cart-btn {
+    border-color: #ff6b6b !important;
+
+    &:hover {
+      color: #fff !important;
+      background-color: #ff6b6b !important;
+    }
+  }
+
+  .saved-vinyl {
+    .heart {
+      fill: #ff6b6b;
+      stroke: #393d46;
+    }
+    &:hover {
+      background-color: #dfdfdf;
+    }
+  }
+}

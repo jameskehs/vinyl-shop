@@ -1,0 +1,177 @@
+nav {
+  width: 100%;
+  display: flex;
+  position: relative;
+
+  #nav-corner-square {
+    z-index: 99;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #393d46;
+    svg {
+      fill: #fff;
+      height: 50%;
+      width: 50%;
+    }
+  }
+
+  #nav-title {
+    user-select: none;
+    padding-left: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    a {
+      text-decoration: none;
+    }
+    h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #393d46;
+    }
+  }
+
+  #nav-icons {
+    width: 100%;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+
+    background: #393d46;
+    top: 50px;
+    padding: 10px;
+
+    a {
+      display: flex;
+      align-items: center;
+      color: rgb(0, 0, 0);
+      text-decoration: none;
+      color: #fff;
+
+      &:hover {
+        color: rgb(106, 106, 106);
+
+        svg {
+          fill: rgb(106, 106, 106);
+          stroke: rgb(106, 106, 106);
+        }
+      }
+    }
+    svg {
+      fill: #fff;
+      stroke: #fff;
+      height: 25px;
+      margin: 10px;
+      margin-right: 15px;
+    }
+
+    #nav-login-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100px;
+      border: 2px solid white;
+      font-size: 1rem;
+      font-weight: 400;
+      color: #fff;
+    }
+    .cart-icon {
+      display: none;
+    }
+  }
+
+  #nav-icons.menu-closed {
+    display: none;
+  }
+  .cart-icon-mobile {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    right: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg {
+      height: 25px;
+      width: 25px;
+      fill: #393d46;
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  nav {
+    #nav-corner-square {
+      height: 75px;
+      width: 75px;
+      svg {
+        display: none;
+      }
+    }
+
+    #nav-icons {
+      width: auto;
+      position: initial;
+      display: flex;
+      justify-content: flex-end;
+      flex-grow: 1;
+      flex-direction: row;
+      background-color: transparent;
+      top: 50px;
+      padding: 10px;
+      margin-right: 75px;
+      align-items: center;
+      p {
+        display: none;
+      }
+
+      svg {
+        fill: #393d46;
+        stroke: #393d46;
+        height: 25px;
+        margin: 10px;
+        margin-left: 15px;
+      }
+
+      .cart-icon {
+        display: initial;
+      }
+
+      #nav-login-btn {
+        color: #393d46;
+        border: 2px solid #393d46;
+        font-size: 0.9rem;
+        width: auto;
+        padding: 5px 10px;
+        margin-left: 15px;
+      }
+    }
+
+    .cart-icon-mobile {
+      display: none;
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  nav {
+    #nav-corner-square {
+      height: 125px;
+      width: 125px;
+    }
+
+    #nav-icons {
+      margin-right: 125px;
+
+      svg {
+        margin-left: 30px;
+        width: 35px;
+        height: 35px;
+      }
+    }
+  }
+}

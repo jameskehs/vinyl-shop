@@ -1,0 +1,48 @@
+#catalog {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  min-height: 100vh;
+}
+
+#catalog h2 {
+  text-align: center;
+  color: #393d46;
+}
+
+#catalog .results-counter {
+  font-weight: 300;
+  color: #687699;
+  font-size: 1rem;
+}
+
+#catalog #search {
+  margin: 10px;
+  width: 75%;
+  padding: 5px;
+  border: 2px solid #393d46;
+}
+
+#catalog #catalog-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+@media screen and (min-width: 768px) {
+  #catalog {
+    margin: 25px 125px;
+  }
+}
+/*# sourceMappingURL=Catalog.css.map */
