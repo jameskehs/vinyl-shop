@@ -1,6 +1,6 @@
 const { pool } = require("./index.js");
 const { seedVinyls, seedUsers } = require("./seedData.js");
-const { createUser } = require("./Users/usersDBFunctions.js");
+const { createUser, addToUserCart, getUserCartProducts, removeFromUserCart } = require("./Users/usersDBFunctions.js");
 const { createVinyl } = require("./Vinyls/vinylDBFunctions.js");
 async function dropTables() {
   try {
@@ -41,21 +41,19 @@ async function buildTables() {
     );
     CREATE TABLE saved_vinyls(
       id SERIAL PRIMARY KEY,
-      user_id INTEGER REFERENCES users (user_id) ON DELETE CASCADE,
+      user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
       vinyl_id INTEGER REFERENCES vinyls(vinyl_id) ON DELETE CASCADE,
       UNIQUE (user_id, vinyl_id)
   );
     CREATE TABLE carts(
         cart_id SERIAL PRIMARY KEY,
-        user_id INTEGER REFERENCES users (user_id) ON DELETE CASCADE,
-        UNIQUE (cart_id, user_id)
+        user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE
     );
     CREATE TABLE cart_products(
-        id SERIAL PRIMARY KEY,
-        cart_id INTEGER REFERENCES carts(cart_id) ON DELETE CASCADE,
-        vinyl_id INTEGER REFERENCES vinyls(vinyl_id) ON DELETE CASCADE,
-        quantity INTEGER NOT NULL DEFAULT 1,
-        UNIQUE (cart_id, vinyl_id)
+      id SERIAL PRIMARY KEY,
+      cart_id INTEGER REFERENCES carts(cart_id) ON DELETE CASCADE,
+      vinyl_id INTEGER REFERENCES vinyls(vinyl_id) ON DELETE CASCADE,
+      quantity INTEGER DEFAULT 1 NOT NULL
     );
     CREATE TABLE orders(
         order_id SERIAL PRIMARY KEY,

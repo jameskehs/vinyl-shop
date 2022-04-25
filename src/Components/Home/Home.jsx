@@ -1,11 +1,11 @@
 import Feature from "./Feature/Feature";
 import NewReleases from "./NewReleases/NewReleases";
 
-const Home = ({ user }) => {
+const Home = () => {
   return (
     <>
       <Feature />
-      <NewReleases user={user} />
+      <NewReleases />
     </>
   );
 };

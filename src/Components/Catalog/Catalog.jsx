@@ -2,7 +2,7 @@ import "./Catalog.css";
 import ProductCard from "../ProductCard/ProductCard";
 import { useEffect, useState } from "react";
 
-const Catalog = ({ user }) => {
+const Catalog = () => {
   const [allVinyls, setAllVinyls] = useState([]);
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState(allVinyls);
@@ -22,10 +22,7 @@ const Catalog = ({ user }) => {
   useEffect(() => {
     setSearchResults(
       allVinyls.filter((vinyl) => {
-        if (
-          vinyl.name.toLowerCase().includes(search.toLowerCase()) ||
-          vinyl.artist.toLowerCase().includes(search.toLowerCase())
-        ) {
+        if (vinyl.name.toLowerCase().includes(search.toLowerCase()) || vinyl.artist.toLowerCase().includes(search.toLowerCase())) {
           return vinyl;
         } else {
           return "";
@@ -38,17 +35,11 @@ const Catalog = ({ user }) => {
     <section id="catalog">
       <h2>Catalog</h2>
       <p className="results-counter">{searchResults.length} results</p>
-      <input
-        id="search"
-        type="text"
-        placeholder="Search"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        autoComplete="off"
-      />
+      <input id="search" type="text" placeholder="Search" value={search} onChange={(e) => setSearch(e.target.value)} autoComplete="off" />
       <div id="catalog-container">
         {searchResults.map((vinyl, index) => {
-          return <ProductCard key={index} vinyl={vinyl} user={user} />;
+          console.log(vinyl);
+          return <ProductCard key={vinyl.vinyl_id} vinyl={vinyl} />;
         })}
       </div>
     </section>

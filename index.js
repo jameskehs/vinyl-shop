@@ -15,20 +15,21 @@ app.use((req, res, next) => {
     const authHeader = req.headers["authorization"];
     if (authHeader === undefined || !authHeader.startsWith("Bearer")) {
       next();
-    }
-    const token = authHeader.split(" ")[1];
-    if (!token) {
-      next();
-    }
+    } else {
+      const token = authHeader.split(" ")[1];
+      if (!token) {
+        next();
+      }
 
-    const user = jwt.verify(token, process.env.JWTSECRET);
-    if (!user) {
+      const user = jwt.verify(token, process.env.JWTSECRET);
+      if (!user) {
+        next();
+      }
+      req.user = user.user_id;
       next();
     }
-    req.user = user.user_id;
-    next();
   } catch (error) {
-    console.log("HEY");
+    console.log(error);
   }
 });
 

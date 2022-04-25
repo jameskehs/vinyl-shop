@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Nav from "./Components/Nav/Nav.jsx";
@@ -8,16 +8,15 @@ import Catalog from "./Components/Catalog/Catalog";
 import SavedVinyls from "./Components/SavedVinyls/SavedVinyls";
 import Cart from "./Components/Cart/Cart";
 import Login from "./Components/Login/Login";
+import LoginNotification from "./Components/LoginNotification/LoginNotification";
+
+export const userContext = createContext([{}, () => {}]);
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    localStorage.getItem("vinyl-shop-jwt") === null ? false : true
-  );
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("vinyl-shop-jwt") === null ? false : true);
   const [user, setUser] = useState({});
-  console.log(user.length);
 
   useEffect(() => {
-    console.log("RUNNING");
     async function getUser() {
       try {
         if (isLoggedIn) {
@@ -33,6 +32,8 @@ function App() {
           }
           const data = await response.json();
           setUser(data);
+        } else {
+          setUser({});
         }
       } catch (error) {
         console.log(error);
@@ -67,39 +68,38 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="App">
-        <Nav isLoggedIn={isLoggedIn} />
-        <button
-          style={{ position: "absolute" }}
-          onClick={() => {
-            localStorage.removeItem("vinyl-shop-jwt");
-            setIsLoggedIn(false);
-            window.location.reload();
-          }}
-        >
-          Logout
-        </button>
-        <button
-          style={{ position: "absolute", left: "50px" }}
-          onClick={() => {
-            loginUser();
-          }}
-        >
-          Login
-        </button>
-        <Routes>
-          <Route path="/" element={<Home user={user} />} />
-          <Route path="/catalog" element={<Catalog user={user} />} />
-          <Route path="/saved" element={<SavedVinyls user={user} />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route
-            path="/login"
-            element={<Login setIsLoggedIn={setIsLoggedIn} />}
-          />
-        </Routes>
-
-        <Footer />
-      </div>
+      <userContext.Provider value={[user, setUser]}>
+        <div className="App">
+          <Nav isLoggedIn={isLoggedIn} />
+          <button
+            style={{ position: "absolute" }}
+            onClick={() => {
+              localStorage.removeItem("vinyl-shop-jwt");
+              setIsLoggedIn(false);
+              window.location.reload();
+            }}
+          >
+            Logout
+          </button>
+          <button
+            style={{ position: "absolute", left: "50px" }}
+            onClick={() => {
+              loginUser();
+            }}
+          >
+            Login
+          </button>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/catalog" element={<Catalog />} />
+            <Route path="/saved" element={<SavedVinyls />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+          </Routes>
+          <Footer />
+          <LoginNotification />
+        </div>
+      </userContext.Provider>
     </BrowserRouter>
   );
 }

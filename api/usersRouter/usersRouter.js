@@ -6,6 +6,9 @@ const {
   getUsersSavedVinyls,
   getUserById,
   addVinylToUserSaved,
+  removeVinylFromUserSaved,
+  addToUserCart,
+  removeFromUserCart,
 } = require("../../db/Users/usersDBFunctions");
 const usersRouter = express.Router();
 
@@ -50,6 +53,36 @@ usersRouter.put("/saveTrack", async (req, res, next) => {
     }
     await addVinylToUserSaved(req.user, req.body.vinyl_id);
     res.json(`${req.body.vinyl_id} added to saved`);
+  } catch (error) {
+    next(error);
+  }
+});
+
+usersRouter.delete("/saveTrack", async (req, res, next) => {
+  try {
+    const { vinyl_id } = req.body;
+    await removeVinylFromUserSaved(req.user, vinyl_id);
+    res.json("Track Removed From Saved");
+  } catch (error) {
+    next(error);
+  }
+});
+
+usersRouter.put("/cart", async (req, res, next) => {
+  try {
+    const { vinyl_id } = req.body;
+    await addToUserCart(req.user, vinyl_id);
+    res.json("Vinyl Added");
+  } catch (error) {
+    next(error);
+  }
+});
+
+usersRouter.delete("/cart", async (req, res, next) => {
+  try {
+    const { vinyl_id } = req.body;
+    await removeFromUserCart(req.user, vinyl_id);
+    res.json("Vinyl Removed");
   } catch (error) {
     next(error);
   }

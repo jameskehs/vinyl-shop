@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import ProductCard from "../../ProductCard/ProductCard";
 import "./NewReleases.css";
 
-const NewReleases = ({ user }) => {
+const NewReleases = () => {
   const [newestVinyls, setNewestVinyls] = useState([]);
+
   useEffect(() => {
     async function getNewestVinyls() {
       const response = await fetch("/api/vinyls/latest");
@@ -18,7 +19,7 @@ const NewReleases = ({ user }) => {
       <div id="new-releases-container">
         {newestVinyls.map((vinyl, index) => {
           if (index <= 4) {
-            return <ProductCard key={index} vinyl={vinyl} user={user} />;
+            return <ProductCard key={index} vinyl={vinyl} />;
           } else return "";
         })}
       </div>

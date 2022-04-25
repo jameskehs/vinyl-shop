@@ -1,0 +1,24 @@
+#login-notification {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: -150px;
+  left: 50%;
+  opacity: 1;
+  transition: all 0.33s ease;
+
+  #notification-box {
+    width: 250px;
+    background-color: #393d46;
+    color: #fff;
+    position: absolute;
+    top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 5px;
+    border: 2px solid rgb(0, 0, 0);
+  }
+}
