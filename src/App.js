@@ -9,6 +9,7 @@ import SavedVinyls from "./Components/SavedVinyls/SavedVinyls";
 import Cart from "./Components/Cart/Cart";
 import Login from "./Components/Login/Login";
 import LoginNotification from "./Components/LoginNotification/LoginNotification";
+import OrderSuccess from "./Components/OrderSuccess/OrderSuccess";
 
 export const userContext = createContext([{}, () => {}]);
 
@@ -39,7 +40,6 @@ function App() {
         console.log(error);
       }
     }
-
     getUser();
   }, [isLoggedIn]);
 
@@ -95,8 +95,9 @@ function App() {
             <Route path="/saved" element={<SavedVinyls />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+            <Route path="/" render={(props) => props.location.pathname !== "/cart" && <Footer />} />
+            <Route path="/success" element={<OrderSuccess />} />
           </Routes>
-          <Footer />
           <LoginNotification />
         </div>
       </userContext.Provider>

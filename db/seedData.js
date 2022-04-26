@@ -2,8 +2,7 @@ const seedUsers = [
   {
     email: "jamesekehs@gmail.com",
     password: "password",
-    firstName: "James",
-    lastName: "Kehs",
+    name: "James Kehs",
     address: "11000 Buddy Ellis Road",
     city: "Denham Springs",
     state: "LA",

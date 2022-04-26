@@ -24,12 +24,7 @@ async function buildTables() {
         user_id SERIAL PRIMARY KEY,
         email VARCHAR(50) NOT NULL UNIQUE,
         password VARCHAR(255) NOT NULL,
-        first_name VARCHAR(50) NOT NULL,
-        last_name VARCHAR(500) NOT NULL,
-        address VARCHAR(255),
-        city VARCHAR(50),
-        state VARCHAR(2),
-        zip VARCHAR(5)
+        name VARCHAR(75) NOT NULL
     );
     CREATE TABLE vinyls(
         vinyl_id SERIAL PRIMARY KEY,
@@ -58,8 +53,8 @@ async function buildTables() {
     CREATE TABLE orders(
         order_id SERIAL PRIMARY KEY,
         user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
-        first_name VARCHAR(255) NOT NULL,
-        last_name VARCHAR(255) NOT NULL,
+        stripe_checkout_session VARCHAR(255) UNIQUE NOT NULL,
+        name VARCHAR(255) NOT NULL,
         email VARCHAR(255) NOT NULL,
         address1 VARCHAR(255) NOT NULL,
         address2 VARCHAR(255),
@@ -67,17 +62,17 @@ async function buildTables() {
         state VARCHAR(2) NOT NULL,
         zip VARCHAR(5) NOT NULL,
         status VARCHAR(255) DEFAULT 'Processing',
-        special_instructions TEXT,
-        total NUMERIC(5,2) NOT NULL
+        total NUMERIC(5,2) NOT NULL,
+        UNIQUE(order_id, user_id)
     );
     CREATE TABLE ordered_products(
         id SERIAL PRIMARY KEY,
         order_id INTEGER REFERENCES orders(order_id),
-        vinyl_id INTEGER REFERENCES vinyls(vinyl_id),
-        quantity INTEGER NOT NULL,
         name VARCHAR(255) NOT NULL,
+        artist VARCHAR(255) NOT NULL,
         price NUMERIC(5,2) NOT NULL,
-        image_url VARCHAR(255)
+        image_url VARCHAR(255),
+        quantity INTEGER NOT NULL
     );
       `);
   } catch (error) {

@@ -9,6 +9,8 @@ const {
   removeVinylFromUserSaved,
   addToUserCart,
   removeFromUserCart,
+  getUserCartProducts,
+  updateUserCartQuantity,
 } = require("../../db/Users/usersDBFunctions");
 const usersRouter = express.Router();
 
@@ -68,6 +70,15 @@ usersRouter.delete("/saveTrack", async (req, res, next) => {
   }
 });
 
+usersRouter.get("/cart", async (req, res, next) => {
+  try {
+    const cartProducts = await getUserCartProducts(req.user);
+    res.send(cartProducts);
+  } catch (error) {
+    next(error);
+  }
+});
+
 usersRouter.put("/cart", async (req, res, next) => {
   try {
     const { vinyl_id } = req.body;
@@ -85,6 +96,17 @@ usersRouter.delete("/cart", async (req, res, next) => {
     res.json("Vinyl Removed");
   } catch (error) {
     next(error);
+  }
+});
+
+usersRouter.patch("/cart", async (req, res, next) => {
+  try {
+    console.log(req.body);
+    const { vinyl_id, quantity } = req.body;
+    await updateUserCartQuantity(req.user, vinyl_id, quantity);
+    res.json("Updated Quantity");
+  } catch (error) {
+    console.log(error);
   }
 });
 

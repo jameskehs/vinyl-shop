@@ -22,7 +22,6 @@ const ProductCard = ({ vinyl }) => {
         document.getElementById("login-notification").style.opacity = "0";
         document.getElementById("login-notification").style.top = "-150px";
       }, 2000);
-      throw Error("No user logged in");
     } else {
       return;
     }

@@ -3,17 +3,16 @@ const bcrypt = require("bcrypt");
 
 async function createUser(user) {
   try {
-    const { email, firstName, lastName, address, city, state, zip } = user;
+    const { email, name } = user;
     const password = await bcrypt.hash(user.password, 10);
     const {
       rows: [newUser],
-    } = await pool.query(
-      `INSERT INTO users(email,password,first_name,last_name,address,city,state,zip) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *;`,
-      [email, password, firstName, lastName, address, city, state, zip]
-    );
+    } = await pool.query(`INSERT INTO users(email,password,name) VALUES($1,$2,$3) RETURNING *;`, [email, password, name]);
+    console.log(newUser);
     await createUserCart(newUser.user_id);
     return newUser;
   } catch (error) {
+    console.log(error);
     throw error;
   }
 }
@@ -57,9 +56,10 @@ async function createUserCart(userId) {
   try {
     const {
       rows: [{ cart_id }],
-    } = await pool.query(`INSERT INTO carts(user_id) VALUES($1) RETURNING cart_id;`, [userId]);
+    } = await pool.query(`INSERT INTO carts(user_id) VALUES($1) RETURNING *;`, [userId]);
     return cart_id;
   } catch (error) {
+    console.log(error);
     throw error;
   }
 }
@@ -88,6 +88,7 @@ async function getUserCartProductIds(userId) {
 }
 async function getUserCartProducts(userId) {
   try {
+    console.log(userId);
     const cartId = await getUserCartId(userId);
     const { rows } = await pool.query(
       `SELECT vinyls.*, cart_products.quantity FROM cart_products JOIN vinyls ON cart_products.vinyl_id = vinyls.vinyl_id WHERE cart_id = $1 `,
@@ -102,6 +103,7 @@ async function getUserCartProducts(userId) {
 async function addToUserCart(userId, vinylId) {
   try {
     const cartId = await getUserCartId(userId);
+    console.log(cartId, vinylId);
     await pool.query(`INSERT INTO cart_products(cart_id, vinyl_id) VALUES($1,$2);`, [cartId, vinylId]);
     return;
   } catch (error) {
@@ -148,13 +150,24 @@ async function removeVinylFromUserSaved(userId, vinylID) {
   }
 }
 
+async function updateUserCartQuantity(userId, vinylId, quantity) {
+  try {
+    const cartId = await getUserCartId(userId);
+    await pool.query(`UPDATE cart_products SET quantity = $1 WHERE cart_id = $2 AND vinyl_id = $3`, [quantity, cartId, vinylId]);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 module.exports = {
   addToUserCart,
   addVinylToUserSaved,
   createUser,
   getUserByLogin,
   getUserById,
+  getUserCartId,
   removeVinylFromUserSaved,
   getUserCartProducts,
   removeFromUserCart,
+  updateUserCartQuantity,
 };

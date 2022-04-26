@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const usersRouter = require("./api/usersRouter/usersRouter");
 const vinylRouter = require("./api/vinylRouter/vinylRouter");
 const jwt = require("jsonwebtoken");
+const ordersRouter = require("./api/ordersRouter/ordersRouter");
 
 app.use(morgan("dev"));
 app.use(express.json());
@@ -35,6 +36,7 @@ app.use((req, res, next) => {
 
 app.use("/api/users", usersRouter);
 app.use("/api/vinyls", vinylRouter);
+app.use("/api/orders", ordersRouter);
 
 app.use((err, req, res, next) => {
   res.status(500).json({ error: err.message });
