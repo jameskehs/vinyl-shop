@@ -1,0 +1,115 @@
+.order-card .order-info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.order-card .order-info .order-status {
+  padding: 5px;
+}
+
+.order-card .order-info .processing {
+  border: 2px solid orange;
+}
+
+.order-card .order-info .production {
+  border: 2px solid green;
+}
+
+.order-card .order-info .shipped {
+  border: 2px solid #393d46;
+}
+
+.order-card .ship-info {
+  font-size: 0.75rem;
+}
+
+.order-card #ordered-products .order-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 15px;
+  width: 100%;
+}
+
+.order-card #ordered-products .order-item img {
+  width: 30%;
+  height: 30%;
+  margin-right: 15px;
+}
+
+.order-card #ordered-products .order-item .order-details {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: relative;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+.order-card #ordered-products .order-item .order-details h3 {
+  font-weight: 300;
+}
+
+.order-card #ordered-products .order-item .order-details svg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 25px;
+}
+
+.order-card #ordered-products .order-item .order-details .order-quantity {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.order-card #ordered-products .order-item .order-details .order-quantity button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-weight: 500;
+  font-size: 16px;
+  border: 2px solid black;
+  background-color: transparent;
+  padding: 2px;
+  height: 25px;
+  width: 25px;
+}
+
+.order-card #ordered-products .order-item .order-details .order-quantity input {
+  margin: 0 10px;
+  width: 25px;
+  text-align: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.order-card #ordered-products .order-item .order-details .order-price {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+/*# sourceMappingURL=OrderCard.css.map */

@@ -11,18 +11,18 @@ const ordersRouter = require("./api/ordersRouter/ordersRouter");
 app.use(morgan("dev"));
 app.use(express.json());
 
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   try {
     const authHeader = req.headers["authorization"];
     if (authHeader === undefined || !authHeader.startsWith("Bearer")) {
       next();
     } else {
       const token = authHeader.split(" ")[1];
-      if (!token) {
+      if (token === "null") {
         next();
+        return;
       }
-
-      const user = jwt.verify(token, process.env.JWTSECRET);
+      const user = await jwt.verify(token, process.env.JWTSECRET);
       if (!user) {
         next();
       }
@@ -30,7 +30,7 @@ app.use((req, res, next) => {
       next();
     }
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 });
 

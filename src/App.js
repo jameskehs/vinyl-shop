@@ -10,6 +10,7 @@ import Cart from "./Components/Cart/Cart";
 import Login from "./Components/Login/Login";
 import LoginNotification from "./Components/LoginNotification/LoginNotification";
 import OrderSuccess from "./Components/OrderSuccess/OrderSuccess";
+import MyAccount from "./Components/MyAccount/MyAccount";
 
 export const userContext = createContext([{}, () => {}]);
 
@@ -43,61 +44,21 @@ function App() {
     getUser();
   }, [isLoggedIn]);
 
-  async function loginUser() {
-    try {
-      const response = await fetch("/api/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: "jamesekehs@gmail.com",
-          password: "password",
-        }),
-      });
-
-      if (!response.ok) {
-        throw Error("Invalid Login, Please Try Again.");
-      }
-      const data = await response.json();
-      localStorage.setItem("vinyl-shop-jwt", data.token);
-      setIsLoggedIn(true);
-      window.location.reload();
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   return (
     <BrowserRouter>
       <userContext.Provider value={[user, setUser]}>
         <div className="App">
           <Nav isLoggedIn={isLoggedIn} />
-          <button
-            style={{ position: "absolute" }}
-            onClick={() => {
-              localStorage.removeItem("vinyl-shop-jwt");
-              setIsLoggedIn(false);
-              window.location.reload();
-            }}
-          >
-            Logout
-          </button>
-          <button
-            style={{ position: "absolute", left: "50px" }}
-            onClick={() => {
-              loginUser();
-            }}
-          >
-            Login
-          </button>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/catalog" element={<Catalog />} />
             <Route path="/saved" element={<SavedVinyls />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
-            <Route path="/" render={(props) => props.location.pathname !== "/cart" && <Footer />} />
             <Route path="/success" element={<OrderSuccess />} />
+            <Route path="/myaccount" element={<MyAccount />} />
           </Routes>
+          {/* {window.location.path !== "/cart" && <Footer />} */}
           <LoginNotification />
         </div>
       </userContext.Provider>

@@ -6,15 +6,26 @@ import { userContext } from "../../App";
 const Cart = () => {
   const [cart, setCart] = useState([]);
   const [user, setUser] = useContext(userContext);
+  const [loginMsg, setLoginMsg] = useState("");
   const total = useRef(0.0);
 
   useEffect(() => {
     async function getCart() {
-      const response = await fetch("api/users/cart", {
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("vinyl-shop-jwt")}` },
-      });
-      const data = await response.json();
-      setCart(data);
+      try {
+        if (localStorage.getItem("vinyl-shop-jwt")) {
+          const response = await fetch("api/users/cart", {
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("vinyl-shop-jwt")}` },
+          });
+          const data = await response.json();
+          if (response.ok) {
+            setCart(data);
+          }
+        } else {
+          setLoginMsg("Login to view cart and checkout");
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     getCart();
@@ -69,6 +80,7 @@ const Cart = () => {
     <div id="cart">
       <h2>My Cart</h2>
       <p>{cart.length} items</p>
+      <p>{loginMsg}</p>
       <div id="cart-products-container">
         {cart.map((vinyl, index) => {
           return <CartItem vinyl={vinyl} key={vinyl.vinyl_id} deleteCartItem={deleteCartItem} updateQuantity={updateQuantity} />;
@@ -78,19 +90,23 @@ const Cart = () => {
         <div id="cart-total">
           <h3>Grand Total:</h3>
           <p>${total.current.toFixed(2)}</p>
-          <button
-            onClick={async () => {
+        </div>
+        <button
+          onClick={async () => {
+            try {
               const response = await fetch("api/orders/create-checkout-session", {
                 method: "POST",
                 headers: { "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("vinyl-shop-jwt")}` },
               });
               const data = await response.json();
               window.location.href = data;
-            }}
-          >
-            Checkout
-          </button>
-        </div>
+            } catch (error) {
+              console.error(error);
+            }
+          }}
+        >
+          Checkout
+        </button>
       </div>
     </div>
   );

@@ -12,6 +12,7 @@ const {
   getUserCartProducts,
   updateUserCartQuantity,
 } = require("../../db/Users/usersDBFunctions");
+const { requireUser } = require("../helpers");
 const usersRouter = express.Router();
 
 usersRouter.post("/", async (req, res, next) => {
@@ -70,7 +71,7 @@ usersRouter.delete("/saveTrack", async (req, res, next) => {
   }
 });
 
-usersRouter.get("/cart", async (req, res, next) => {
+usersRouter.get("/cart", requireUser, async (req, res, next) => {
   try {
     const cartProducts = await getUserCartProducts(req.user);
     res.send(cartProducts);

@@ -16,7 +16,6 @@ async function createUser(user) {
     throw error;
   }
 }
-
 async function getUserByLogin(email, password) {
   try {
     const {
@@ -37,7 +36,6 @@ async function getUserByLogin(email, password) {
     throw error;
   }
 }
-
 async function getUserById(userId) {
   try {
     const {
@@ -51,7 +49,6 @@ async function getUserById(userId) {
     console.log(error);
   }
 }
-
 async function createUserCart(userId) {
   try {
     const {
@@ -99,7 +96,6 @@ async function getUserCartProducts(userId) {
     throw error;
   }
 }
-
 async function addToUserCart(userId, vinylId) {
   try {
     const cartId = await getUserCartId(userId);
@@ -110,7 +106,6 @@ async function addToUserCart(userId, vinylId) {
     throw error;
   }
 }
-
 async function removeFromUserCart(userId, vinylId) {
   try {
     const cartId = await getUserCartId(userId);
@@ -132,7 +127,6 @@ async function getUsersSavedVinyls(userId) {
     console.log(error);
   }
 }
-
 async function addVinylToUserSaved(userId, vinylId) {
   try {
     await pool.query(`INSERT INTO saved_vinyls(user_id, vinyl_id) VALUES ($1,$2)`, [userId, vinylId]);
@@ -140,7 +134,6 @@ async function addVinylToUserSaved(userId, vinylId) {
     throw error;
   }
 }
-
 async function removeVinylFromUserSaved(userId, vinylID) {
   try {
     await pool.query(`DELETE FROM saved_vinyls WHERE user_id = ($1) AND vinyl_id = ($2)`, [userId, vinylID]);
@@ -149,13 +142,31 @@ async function removeVinylFromUserSaved(userId, vinylID) {
     throw error;
   }
 }
-
 async function updateUserCartQuantity(userId, vinylId, quantity) {
   try {
     const cartId = await getUserCartId(userId);
     await pool.query(`UPDATE cart_products SET quantity = $1 WHERE cart_id = $2 AND vinyl_id = $3`, [quantity, cartId, vinylId]);
   } catch (error) {
     console.log(error);
+  }
+}
+async function getLatestOrder(userId) {
+  try {
+    const { rows } = await pool.query(`SELECT * FROM orders WHERE user_id = $1 ORDER BY order_id DESC LIMIT 1`, [userId]);
+    await Promise.all(
+      rows.map(async (order) => {
+        const products = await pool.query("SELECT name,artist,image_url,price,quantity,id FROM ordered_products WHERE order_id =$1", [
+          order.order_id,
+        ]);
+        order.products = products.rows;
+        delete order.user_id;
+        delete order.stripe_checkout_session;
+      })
+    );
+    return rows;
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 }
 
@@ -170,4 +181,5 @@ module.exports = {
   getUserCartProducts,
   removeFromUserCart,
   updateUserCartQuantity,
+  getLatestOrder,
 };

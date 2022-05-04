@@ -1,11 +1,14 @@
 const express = require("express");
 const { convertUserCartIntoOrder } = require("../../db/Orders/ordersDBFunctions");
-const { getUserCartProducts } = require("../../db/Users/usersDBFunctions");
+const { getUserCartProducts, getLatestOrder } = require("../../db/Users/usersDBFunctions");
 const ordersRouter = express.Router();
 const stripe = require("stripe")("sk_test_51KspZ0ERzzvCwxqBFJvBf09OpmKAu36HDI4Hbbs5ZKhXjzQvECIDWjNhZ7es0UJdYSKnI66oVsGDhMgBlsU9IQ0A005E0cJffH");
 
 ordersRouter.post("/create-checkout-session", async (req, res, next) => {
   try {
+    if (!req.user) {
+      next("Authentication Error");
+    }
     const userCart = await getUserCartProducts(req.user);
     let line_items = [];
     userCart.forEach((cartItem) => {
@@ -58,6 +61,15 @@ ordersRouter.put("/success", async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
+    next(error);
+  }
+});
+
+ordersRouter.get("/latest", async (req, res, next) => {
+  try {
+    const latestOrders = await getLatestOrder(req.user);
+    res.send(latestOrders);
+  } catch (error) {
     next(error);
   }
 });
